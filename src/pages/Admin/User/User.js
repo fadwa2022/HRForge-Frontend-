@@ -1,24 +1,41 @@
-import React from 'react';
-import {  useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { personnelService } from "../../../_services/personnel.Service";
+import { accountService } from "../../../_services/accountService";
 
 const User = () => {
- 
- let navigate = useNavigate()
- const maecel = (userId) => {
-  console.log('click')
-  navigate("../edit/"+userId)
- }
+  let navigate = useNavigate();
+  const [personnels, setPersonnels] = useState([]);
 
- 
+  useEffect(() => {
+    personnelService
+      .getAllPersonnels()
+      .then((res) => {
+        if (res.data.content.length > 0) {
+          setPersonnels(res.data.content);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [personnels]);
+  
 
-    return (        
-    <div className='User'>
-             User List 
-             <button onClick={() => maecel(4)} >User 4
+  //   const maecel = (userId) => {
+  //     console.log("click");
+  //     navigate("../edit/" + userId);
+  //   };
 
-             </button>
+  return (
+    <div className="User">
+      User List
+      {
+      personnels.map((people) => {
+        return (
+        <div>
+       {people.cin}
+        </div>)
+      })}
     </div>
-    );
+  );
 };
 
 export default User;

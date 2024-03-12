@@ -10,6 +10,7 @@ function AdminRouter() {
   return (
     <Routes>
       <Route element={<ALayout />}>
+      <Route index element={<Dashboard/>}></Route>
         <Route path="dashboard" element={<Dashboard />}></Route>
         <Route path="" >
           <Route
