@@ -32,7 +32,8 @@ let addPersonnel = (user) => {
  * @returns {Promise}
  */
 let updatePersonnel = (user) => {
-    return Axios.patch('/users/'+user.id, user)
+    console.log(user)
+    return Axios.put('/api/personnel/'+user.cin, user)
 }
 
 /**
@@ -41,7 +42,7 @@ let updatePersonnel = (user) => {
  * @returns {Promise}
  */
 let deletePersonnel = (uid) => {
-    return Axios.delete('/users/'+uid)
+    return Axios.delete('/api/personnel/'+uid)
 }
 
 // Décaraltion des esrvices pour import
