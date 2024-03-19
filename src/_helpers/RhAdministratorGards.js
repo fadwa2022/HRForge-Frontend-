@@ -13,7 +13,7 @@ import { accountService } from "@/_services/accountService";
 
 function RhAdministratorGards({children }) {
   const tokenInfo = accountService.getTokenInfo(); 
-  const isCEO = accountService.isLogged() && tokenInfo.scope === "chro::create chro::read chro::delete chro::update ROLE_CHRO";
+  const isCEO = accountService.isLogged() && tokenInfo.scope.includes("ROLE_CHRO");
   if(!isCEO){
     return <Navigate to="/home"/>
 }

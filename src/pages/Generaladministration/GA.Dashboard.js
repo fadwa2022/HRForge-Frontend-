@@ -2,9 +2,17 @@ import React from 'react'
 import "@/helpers/assets/css/demo.css"
 import "@/helpers/assets/css/light-bootstrap-dashboard.css"
 import "@/helpers/assets/css/bootstrap.min.css"
+import { accountService } from "@/_services/accountService";
+import { useNavigate } from "react-router-dom";
 
 
 function GADashboard() {
+    let navigate = useNavigate()
+
+    const logout = (e) => {
+        accountService.logout()
+        navigate('../auth/login')
+    }
   return (
     <div className="wrapper">
   
@@ -66,7 +74,7 @@ function GADashboard() {
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#pablo">
+                                <a onClick={logout} class="nav-link" >
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>

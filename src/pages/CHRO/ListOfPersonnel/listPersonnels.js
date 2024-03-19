@@ -6,34 +6,40 @@ import "@/helpers/assets/tales/css/demo.css";
 import "@/helpers/assets/tales/css/pe-icon-7-stroke.css";
 import { useNavigate } from "react-router-dom";
 import { personnelService } from "../../../_services/personnel.Service";
+import { HrAdministratorService } from "../../../_services/hrAdministratorService";
+import { accountService } from "../../../_services/accountService";
 
 function ListPersonnels() {
   let navigate = useNavigate();
   const [personnels, setPersonnels] = useState([]);
 
   useEffect(() => {
-    personnelService
-      .getAllPersonnels()
-      .then((res) => {
-        if (res.data.content.length > 0) {
-          setPersonnels(res.data.content);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const token = accountService.getTokenInfo().sub;
 
-  function onsubmit(selectedRole,personnel) {
-    personnel.role = selectedRole
-    personnelService
-    .updatePersonnel(personnel)
-    .then((res) => {
-        navigate("../listOfPersonnel");
-    })
-    .catch((err) => console.log(err));
-}
+        const hrLogged = await HrAdministratorService.getHrByUserName(token);
+        
+        const personnelResponse = await personnelService.getAllPersonnels();
+        
+        const personnelList = personnelResponse.data.content;
+        setPersonnels(personnelList);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
   
-
-
+    fetchData();
+  }, []);
+  
+  const detailPersonnel = (hrcin) => {
+    navigate("../personnelProfile/" + hrcin);
+  };
+  const deletePersonnel = (cin) => {
+    personnelService.deletePersonnel(cin)
+    navigate(".." );
+  };
   return (
     <div class="wrapper">
       <div class="main-panel">
@@ -167,30 +173,33 @@ function ListPersonnels() {
                       <tbody>
                         {personnels.map((people) => {
                           return (
-                            <tr
-                            >
-                              <td>{people.cin}</td>
-                              <td>{people.email}</td>
-                              <td>{people.dateofbirth}</td>
-                              <td>{people.first_name}</td>
-                              <td>{people.last_name}</td>
-                              <td>{people.telephone}</td>
+                            <tr  key={people.cin} onClick={() => detailPersonnel(people.cin)}>
+                              
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.cin}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.email}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.dateofbirth}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.first_name}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.last_name}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.telephone}</td>
+                              <td onClick={() => detailPersonnel(people.cin)}>{people.role}</td>
 
-                              <td>
-                                
-                              <select
-    className="form-control"
-    name="role"
-    id="role"
-    onChange={(e) => onsubmit(e.target.value,people)}  >
-    
-    
-    <option selected value={people.role}>{people.role}</option>
-    <option value="CEO">CEO</option>
-    <option value="CHRO">CHRO</option>
-    <option value="PROJECT_MANAGER">PROJECT_MANAGER</option>
-    <option value="STANDARD_EMPLOYER">STANDARD_EMPLOYER</option>
-  </select></td>
+                              
+                              {people.role === "CHRO" || people.role === "CEO" ? null : (
+    <td >
+  <button
+    key={people.cin}
+    onClick={() => deletePersonnel(people.cin)}
+    type="button"
+    style={{ height: '30px', textAlign: 'center' }}
+    className="btn btn-warning btn-rounded"
+    data-mdb-ripple-init
+  >
+    delete
+  </button>
+
+
+</td>)}
+
                             </tr>
                           );
                         })}

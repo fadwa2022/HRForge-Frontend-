@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import Axios from "./caller.service";
 import { jwtDecode } from "jwt-decode";
 
@@ -6,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
  * @param {object} credentials
  * @returns {Promise}
  */
+
 let login = (credentials) => {
   return Axios.post(
     "/auth/login?username=" +
@@ -28,7 +30,7 @@ let saveToken = (token) => {
  */
 let logout = () => {
   localStorage.removeItem("token");
-};
+  };
 
 /**
  * Etat de la présence d'un token en localStorage

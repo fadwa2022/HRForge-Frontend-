@@ -6,6 +6,9 @@ import AuthRouter from "@/pages/Auth/AuthRouter";
 import AuthGuard from "@/_helpers/AuthGards";
 import GARouter from "./pages/Generaladministration/GA.Router";
 import GeneralAdminGuard from "./_helpers/GeneraladminGards";
+import RhAdministratorGards from "./_helpers/RhAdministratorGards";
+import CHRORouter from "./pages/CHRO/CHRO.Router";
+import PersonnelRouter from "./pages/Personnel/PersonnelRouter";
 
 function App() {
   return (
@@ -13,14 +16,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<PublicRouter />}></Route>
-         {/*  <Route
-            path="/admin/*"
+          <Route
+            path="/chro/*"
             element={
-              <AuthGuard>
-                <AdminRouter />
-              </AuthGuard>
+               <AuthGuard>
+               <RhAdministratorGards>
+                  <CHRORouter />
+              </RhAdministratorGards>
+             </AuthGuard>
             }
-          ></Route> */}
+          ></Route>
           <Route
             path="/generalAdministration/*"
             element={
@@ -29,6 +34,12 @@ function App() {
                   <GARouter />
                 </GeneralAdminGuard>
               </AuthGuard>
+            }
+          ></Route>
+          <Route
+            path="/personnel/*"
+            element={
+                <PersonnelRouter />
             }
           ></Route>
           <Route path="/auth/*" element={<AuthRouter />}></Route>
