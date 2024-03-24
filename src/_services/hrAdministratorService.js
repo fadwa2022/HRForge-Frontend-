@@ -1,3 +1,4 @@
+import { accountService } from './accountService'
 import Axios from './caller.service'
 
 /**
@@ -5,7 +6,7 @@ import Axios from './caller.service'
  * @returns {Promise}
  */
 let getAllHrAdministrator = () => {
-    return Axios.get('/api/hr-administrators')
+    return  Axios.get('/api/hr-administrators')
 }
 
 /**
@@ -13,9 +14,10 @@ let getAllHrAdministrator = () => {
  * @param {string} cin 
  * @returns {Promise}
  */
-let getHrAdministrator = (cin) => {
-    return Axios.get('/api/hr-administrators/'+cin)
+let getHrAdministrator = (id) => {
+    return Axios.get('/api/hr-administrators/'+id)
 }
+
 
 /**
  * Ajout d'un utilisateur
@@ -44,7 +46,16 @@ let deleteHrAdministrator = (cin) => {
     return Axios.delete('/api/hr-administrators/'+cin)
 }
 
+/**
+ * Récupération d'un utilisateur by username
+ * @param {string} username
+ * @returns {Promise}
+ */
+let getHrByUserName = (username) => {
+    return Axios.get('/api/hr-administrators/personnelusername/'+username)
+}
+
 // Décaraltion des esrvices pour import
 export const HrAdministratorService = {
-    getAllHrAdministrator, getHrAdministrator, addHrAdministrator, updateHrAdministrator, deleteHrAdministrator
+    getHrByUserName,getAllHrAdministrator, getHrAdministrator, addHrAdministrator, updateHrAdministrator, deleteHrAdministrator
 }

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { accountService } from './accountService'
 
 // Paramétrage de base d'axios
-const Axios = axios.create({
+const Axios = await axios.create({
     baseURL: 'http://localhost:8080'
 })
 

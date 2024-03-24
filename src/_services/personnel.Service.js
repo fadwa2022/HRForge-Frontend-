@@ -13,8 +13,16 @@ let getAllPersonnels = () => {
  * @param {number} uid 
  * @returns {Promise}
  */
-let getPersonnel = (uid) => {
-    return Axios.get('/users/'+uid)
+let getPersonnelByCin = (cin) => {
+    return Axios.get('/api/personnel/'+cin)
+}
+/**
+ * Récupération d'un utilisateur by username
+ * @param {string} username
+ * @returns {Promise}
+ */
+let getPersonnelByUseName = (username) => {
+    return Axios.get('/api/personnel/username/'+username)
 }
 
 /**
@@ -23,7 +31,8 @@ let getPersonnel = (uid) => {
  * @returns {Promise}
  */
 let addPersonnel = (user) => {
-    return Axios.put('/users', user)
+    console.log(user)
+    return Axios.post('/api/personnel', user)
 }
 
 /**
@@ -32,7 +41,6 @@ let addPersonnel = (user) => {
  * @returns {Promise}
  */
 let updatePersonnel = (user) => {
-    console.log(user)
     return Axios.put('/api/personnel/'+user.cin, user)
 }
 
@@ -45,7 +53,8 @@ let deletePersonnel = (uid) => {
     return Axios.delete('/api/personnel/'+uid)
 }
 
+
 // Décaraltion des esrvices pour import
 export const personnelService = {
-    getAllPersonnels, getPersonnel, addPersonnel, updatePersonnel, deletePersonnel
+    getPersonnelByUseName,getAllPersonnels, getPersonnelByCin, addPersonnel, updatePersonnel, deletePersonnel
 }

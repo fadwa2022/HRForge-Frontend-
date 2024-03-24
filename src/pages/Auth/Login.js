@@ -27,10 +27,18 @@ function Login() {
     accountService.login(credentials)
         .then(res => {
             accountService.saveToken(res.data['access-token'])
-             navigate('/admin', {replace: true})
+            const token = accountService.getTokenInfo();
+            if (token.scope.includes("ROLE_CEO")) {
+              navigate('/generalAdministration', { replace: true });
+          } 
+          if(token.scope.includes("ROLE_CHRO")) {
+              navigate('/chro', { replace: true });
+          }
         })
         .catch(error => console.log(error))
 }
+
+
   return (
     <html lang="en">
       <head>
